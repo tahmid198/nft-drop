@@ -17,8 +17,8 @@ Candy Machine is an on chain Solana program that governs fair mints. This means 
 
 For example, if there is one NFT left and person A and person B clikced mint at the same time. Candy Machine handles these problems for us.
 
+
+
 ### Resources
 
 [Metaplex and Candy Machine](https://hackmd.io/@levicook/HJcDneEWF#:~:text=metaplex%20is%20a%20command%20line,machine%20is%20valid%20and%20complete)
-
-testing
