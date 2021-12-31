@@ -12,7 +12,17 @@ To start up the app follow these commands:
 ### Dependencies
 
 - **Metaplex** will help us create and mint NFT, while **Candy Machine** will help us govern fair mints.
-- [**Phantom Wallet**](https://phantom.app/) will be a bridge between our web app and Solana program. Without a connecting to a wallet we cannot communicate with the Solana blockchain.
+- **[Phantom Wallet]**(https://phantom.app/) will be a bridge between our web app and Solana program. Without a connecting to a wallet we cannot communicate with the Solana blockchain.
+- **[Solana CLI]**(https://docs.solana.com/cli/install-solana-cli-tools#use-solanas-install-toolls) to deploy to the devnet (an actual blockchain runned by validators).
+- **Metaplex CLI** to interact with Metaplex's deployed NFT contracts. This will allow us to
+  1. Create our own Candymachine
+  2. Upload our NFT to our Candymachine 
+  3. Allow users to mint NFT using our Candymachine
+- To interact with Candmachine CLI the following needs to be installed:
+  - **[Git]**(https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+  - **[NodeJS]**(https://nodejs.org/en/download/)
+  - **[Yarn]**(https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable) - make sure to install globally, `npm install -g yarn` 
+  - **[ts-node]**(https://www.npmjs.com/package/ts-node#installation) - make sure to install globally, `npm install -g ts-node`
 
 ### What is the .vscode Folder?
 If you use VSCode to build your app, we included a list of suggested extensions that will help you build this project! Once you open this project in VSCode, you will see a popup asking if you want to download the recommended extensions :).
