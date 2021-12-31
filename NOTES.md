@@ -16,3 +16,7 @@ Metaplex is the NFT standard that Solana uses to create and mint NFTS. Unlike Et
 Candy Machine is an on chain Solana program that governs fair mints. This means that the system wont accept funds if they are out of NFT's to sell and start and finish is the same for everyone. Due to Solonas parrelel computing nature, Candy Machine is able to handle edge cases. 
 
 For example, if there is one NFT left and person A and person B clikced mint at the same time. Candy Machine handles these problems for us.
+
+### Resources
+
+[Metaplex and Candy Machine](https://hackmd.io/@levicook/HJcDneEWF#:~:text=metaplex%20is%20a%20command%20line,machine%20is%20valid%20and%20complete)
