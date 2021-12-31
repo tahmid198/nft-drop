@@ -20,3 +20,5 @@ For example, if there is one NFT left and person A and person B clikced mint at 
 ### Resources
 
 [Metaplex and Candy Machine](https://hackmd.io/@levicook/HJcDneEWF#:~:text=metaplex%20is%20a%20command%20line,machine%20is%20valid%20and%20complete)
+
+testing
