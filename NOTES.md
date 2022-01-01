@@ -18,16 +18,20 @@ Candy Machine is an on chain Solana program that governs fair mints. This means 
 
 For example, if there is one NFT left and person A and person B clikced mint at the same time. Candy Machine handles these problems for us.
 
-### Deploying Your NFT's
+### Deploying Your NFT's 🚀
 
 Deploying is a 3 step process:
 1. First we have to upload our NFT's to Arweave(a decentralized file-storage) and initilize our candymachine.
 2. Next, we need to create our candymachine on Metaplex's contract.
 3. Lastly, we need to update our candymachine with the data a customer can mint our NFT's.
 
+Use this link from the Metaplex documentation to [prepare your NFT](https://docs.metaplex.com/candy-machine-v1/prepare-assets).
+
 In order to begin uploading to Solana we first need to create a local wallet which is essentially a keypair (a private and public key). This public key will act as our wallet address. We can copy and paste this address into our NFT's JSON file and replace it with the placeholder found at `creators:address`. To get your address you can use the command `solana address`. 
 
 Next we use Metaplex's upload command to upload our NFT's found in the asset folder. Once upload is complete we can verify everything went well by running the verify command, and the following recipt should print with the name of our NFTs + their Arweave links.
+
+Use this link from the Metaplex documentation to [upload your NFT](https://docs.metaplex.com/candy-machine-v1/upload-assets).
 
 `wallet public key: 4onC4LPmiGFsXRNEYJ3hWMMRp9vTMNqu98iwFQU44cEb
 Name FUTURE_FOUNDATION with https://arweave.net/DG1pgu8oEhq97uvzETCviyONauuV9RGxB_NVEGihFfk checked out
@@ -37,8 +41,33 @@ uploaded (3) out of (3)
 ready to deploy!`
 
 Arweave will store our data forever. It uses an algorithm to determine the cost of storing data forever based on size. For our case Metaplex is being generous and will pay for the cose of our NFT's. 
+
+### Creating an NFT Candy Machine
+
+When deploying our Candy Machine to the Metaplex's contract we are not deploying a new Candy Machine from scratch. All that is happening is that we are adding a new Candy Machine to Metaplex's existing protocol. 
+
+Use this link from the Metaplex documentation to [create our Candy Machine](https://docs.metaplex.com/candy-machine-v1/create-cm)
+
+When creating our Candy Machine we will also be pricing our NFT in the same command.
+
+Once we deploy our Candy Machine we should have an output like the one here:
+
+`wallet public key: 4onC4LPmiGFsXRNEYJ3hWMMRp9vTMNqu98iwFQU44cEb
+create_candy_machine finished. candy machine pubkey: 4UsstNBVE4Z3L8wcnEtK6bgkg1gWFjhE8Rc959UVnxuk`
+
+The `candy machine pubkey` is the address of our deployed candy machine.
+
+Note that all our NFT's will live on Metaplex's open protocal and only we will be able to alter them.
+
+
+
+
 ### Resources
 
 [Metaplex and Candy Machine](https://hackmd.io/@levicook/HJcDneEWF#:~:text=metaplex%20is%20a%20command%20line,machine%20is%20valid%20and%20complete)
+
 [Arweave Algorithm](https://arwiki.wiki/#/en/storage-endowment#toc_Transaction_Pricing)
+
 [Arweave Storage Fee Calculator](https://arweavefees.com/)
+
+[Metaplex Documentation](https://docs.metaplex.com/)

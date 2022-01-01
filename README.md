@@ -36,6 +36,8 @@ Check out these intresting and helpful notes I took while working on this projec
 
 [Ship your own custom NFT collection on Solana w/ Metaplex in a weekend](https://app.buildspace.so/projects/CO77556be5-25e9-49dd-a799-91a2fc29520e)
 
+[Setting up Candy Machine](https://docs.metaplex.com/candy-machine-v1/introduction)
+
 [Establishing a Connection with Phantom](https://docs.phantom.app/integrating/establishing-a-connection#eagerly-connecting)
 
 [Metaplex](https://www.metaplex.com/)
