@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import { MintLayout, TOKEN_PROGRAM_ID, Token } from '@solana/spl-token';
@@ -25,6 +25,9 @@ const MAX_SYMBOL_LENGTH = 10;
 const MAX_CREATOR_LEN = 32 + 1 + 1;
 
 const CandyMachine = ({ walletAddress }) => {
+  // Add state property inside your component like this
+  const [machineStats, setMachineStats] = useState(null);
+
   // Actions
   const fetchHashTable = async (hash, metadataEnabled) => {
     const connection = new web3.Connection(
@@ -250,18 +253,8 @@ const CandyMachine = ({ walletAddress }) => {
     });
   };
 
-  return (
-    <div className="machine-container">
-      <p>Drop Date:</p>
-      <p>Items Minted:</p>
-      <button className="cta-button mint-button" onClick={mintToken}>
-        Mint NFT
-      </button>
-    </div>
-  );
-
   useEffect(() => {
-  getCandyMAchineState();
+  getCandyMachineState();
   }, []);
 
   /**
@@ -281,7 +274,7 @@ const CandyMachine = ({ walletAddress }) => {
       opts.preflightCommitment
     );
     return provider;
-  }
+  };
 
   // Declare getCandyMachineState as an async method
   const getCandyMachineState = async () => {
@@ -303,7 +296,7 @@ const CandyMachine = ({ walletAddress }) => {
     const itemsAvailable = candyMachine.data.itemsAvailable.toNumber();
     const itemsRedeemed = candyMachine.itemsRedeemed.toNumber();
     const itemsRemaining = itemsAvailable - itemsRedeemed;
-    const goLiveData = candyMachine.data.goLiveData.toNumber();
+    const goLiveData = candyMachine.data.goLiveDate.toNumber();
 
     // We will be using this later in our UI so let's generate this now
     const goLiveDataTimeString = `${new Date(
@@ -316,8 +309,31 @@ const CandyMachine = ({ walletAddress }) => {
       goLiveData,
       goLiveDataTimeString,
     });
+
+    // Add this data to your state to render
+    // We create a state variable and then make a call to setMachineStats to set the data
+    setMachineStats({
+      itemsAvailable,
+      itemsRedeemed,
+      itemsRemaining,
+      goLiveData,
+      goLiveDataTimeString,
+    });
   };
-  
+
+  return (
+    // Only show this if machineStats is available
+    machineStats && (
+    <div className="machine-container">
+      <p>{`Drop Date:${machineStats.goLiveDateTimeString}`}</p>
+      <p>{`Items Minted: ${machineStats.itemsRedeemed} / ${machineStats.itemsAvailable}`}</p>
+      <p>Items Minted:</p>
+      <button className="cta-button mint-button" onClick={mintToken}>
+        Mint NFT
+      </button>
+    </div>
+    )
+  );
 };
 
 export default CandyMachine;
