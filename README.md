@@ -29,7 +29,7 @@ If you use VSCode to build your app, we included a list of suggested extensions 
 
 ### Notes 📝
 
-Check out these intresting and helpful notes I took while working on this project.
+Link to my notes I created so I can refer back to them in the future.
 
 
 ### Resources
