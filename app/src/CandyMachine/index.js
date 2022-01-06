@@ -28,6 +28,9 @@ const CandyMachine = ({ walletAddress }) => {
   // Add state property inside your component like this
   const [machineStats, setMachineStats] = useState(null);
 
+  // New state property to store metadata of minted NFT's
+  const [mints, setMints] = useState([]);
+
   // Actions
   const fetchHashTable = async (hash, metadataEnabled) => {
     const connection = new web3.Connection(
@@ -112,6 +115,12 @@ const CandyMachine = ({ walletAddress }) => {
 
   const mintToken = async () => {
     try {
+
+      
+      /**
+       * Here we are creating an account of our NFT
+       * In solana, programs are stateless which is very different from Ethereum where contracts hold state. 
+       * */      
       const mint = web3.Keypair.generate();
       const token = await getTokenWallet(
         walletAddress.publicKey,
@@ -125,12 +134,13 @@ const CandyMachine = ({ walletAddress }) => {
         MintLayout.span
       );
 
+      // Params candy machine needs to mint the NFT
       const accounts = {
         config,
         candyMachine: process.env.REACT_APP_CANDY_MACHINE_ID,
-        payer: walletAddress.publicKey,
+        payer: walletAddress.publicKey, // Person paying + receiving the NFT
         wallet: process.env.REACT_APP_TREASURY_ADDRESS,
-        mint: mint.publicKey,
+        mint: mint.publicKey, // Account address of the NFT we are minting
         metadata,
         masterEdition,
         mintAuthority: walletAddress.publicKey,
@@ -143,6 +153,12 @@ const CandyMachine = ({ walletAddress }) => {
       };
 
       const signers = [mint];
+      
+      /**
+       * Metaplex gives us functions that live on our candymachine
+       * Here we bundle a few instructions (a tranaction) and hit them.
+       */
+
       const instructions = [
         web3.SystemProgram.createAccount({
           fromPubkey: walletAddress.publicKey,
@@ -178,6 +194,7 @@ const CandyMachine = ({ walletAddress }) => {
       const idl = await Program.fetchIdl(candyMachineProgram, provider);
       const program = new Program(idl, candyMachineProgram, provider);
 
+      // Hit the candy machine and tell it to mint our NFT (mintNft is a candymachine function)
       const txn = await program.rpc.mintNft({
         accounts,
         signers,
@@ -310,6 +327,41 @@ const CandyMachine = ({ walletAddress }) => {
       goLiveDataTimeString,
     });
 
+    // we use fetchHashTable to "Get all the accounts that have a minted NFT on this program and return the Token URI's which point to our metadata for that NFT".
+    const data  = await fetchHashTable(
+      process.env.REACT_APP_CANDY_MACHINE_ID,
+      true
+    );
+
+    // We loop through every mint, get the Token URI, use it to fetch the jsonfile and then parse out the asset address of each of our NFT
+    // After we got them all, we store them in our state and we are done
+    if (data.length !== 0) {
+      const requests = data.map(async (mint) => {
+        // GET  URI
+        try {
+         const response = await fetch(mint.data.uri);
+         const parse = await response.json();
+         console.log("Past Minted NFT", mint)
+
+         // Get image URI
+         return parse.image;
+      } catch(e) {
+        // If any request fails, we'll just disregard it and carry one
+        console.error("Failed retrieving Minted NFT", mint);
+        return null;
+      }
+    });
+
+    // Wait for all requests to finish
+    const allMints = await Promise.all(requests);
+
+    // Filter requests that failed
+    const filteredMints = allMints.filter(mint => mint !== null);
+
+    // Store all the minted image URIs
+    setMints(filteredMints);
+  }
+
     // Add this data to your state to render
     // We create a state variable and then make a call to setMachineStats to set the data
     setMachineStats({
@@ -321,6 +373,19 @@ const CandyMachine = ({ walletAddress }) => {
     });
   };
 
+  const renderMintedItems = () => (
+    <div className="gif-container">
+      <p className="sub-text">Minted Items ✨ </p>
+      <div className="gif-grid">
+        {mints.map ((mint) => (
+          <div className="gif-item" key={mint}>
+            <img src={mint} alt={`Minted NFT ${mint}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     // Only show this if machineStats is available
     machineStats && (
@@ -328,9 +393,11 @@ const CandyMachine = ({ walletAddress }) => {
       <p>{`Drop Date:${machineStats.goLiveDateTimeString}`}</p>
       <p>{`Items Minted: ${machineStats.itemsRedeemed} / ${machineStats.itemsAvailable}`}</p>
       <p>Items Minted:</p>
-      <button className="cta-button mint-button" onClick={mintToken}>
+      <button className="cta-button mint-button" onClick={mintToken}> 
         Mint NFT
       </button>
+       {/* If we have mints available in our array, let's render some items */}
+      {mints.length > 0 && renderMintedItems()}
     </div>
     )
   );
