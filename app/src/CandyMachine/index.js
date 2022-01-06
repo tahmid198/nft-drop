@@ -27,9 +27,11 @@ const MAX_CREATOR_LEN = 32 + 1 + 1;
 const CandyMachine = ({ walletAddress }) => {
   // Add state property inside your component like this
   const [machineStats, setMachineStats] = useState(null);
-
   // New state property to store metadata of minted NFT's
   const [mints, setMints] = useState([]);
+  // State properties to track minting
+  const [isMinting, setIsMinting] = useState(false);
+  const [isLoadingMints, setIsLoadingMints] = useState(false);
 
   // Actions
   const fetchHashTable = async (hash, metadataEnabled) => {
@@ -115,12 +117,11 @@ const CandyMachine = ({ walletAddress }) => {
 
   const mintToken = async () => {
     try {
-
-      
       /**
        * Here we are creating an account of our NFT
        * In solana, programs are stateless which is very different from Ethereum where contracts hold state. 
-       * */      
+       * */     
+      setIsMinting(true); 
       const mint = web3.Keypair.generate();
       const token = await getTokenWallet(
         walletAddress.publicKey,
@@ -213,6 +214,9 @@ const CandyMachine = ({ walletAddress }) => {
             const { result } = notification;
             if (!result.err) {
               console.log('NFT Minted!');
+              // Set our flag todalse as our NFT has been minted
+              setIsMinting(false);
+              await getCandyMachineState();
             }
           }
         },
@@ -220,6 +224,9 @@ const CandyMachine = ({ walletAddress }) => {
       );
     } catch (error) {
       let message = error.msg || 'Minting failed! Please try again!';
+
+      // If we have an error set our loading flag to false
+      setIsMinting(false);
 
       if (!error.msg) {
         if (error.message.indexOf('0x138')) {
@@ -327,6 +334,9 @@ const CandyMachine = ({ walletAddress }) => {
       goLiveDataTimeString,
     });
 
+    // Set laoding flag
+    setIsLoadingMints(true);
+
     // we use fetchHashTable to "Get all the accounts that have a minted NFT on this program and return the Token URI's which point to our metadata for that NFT".
     const data  = await fetchHashTable(
       process.env.REACT_APP_CANDY_MACHINE_ID,
@@ -362,6 +372,9 @@ const CandyMachine = ({ walletAddress }) => {
     setMints(filteredMints);
   }
 
+  // Remove loading flag.
+  setIsLoadingMints(false);
+
     // Add this data to your state to render
     // We create a state variable and then make a call to setMachineStats to set the data
     setMachineStats({
@@ -393,9 +406,13 @@ const CandyMachine = ({ walletAddress }) => {
       <p>{`Drop Date:${machineStats.goLiveDateTimeString}`}</p>
       <p>{`Items Minted: ${machineStats.itemsRedeemed} / ${machineStats.itemsAvailable}`}</p>
       <p>Items Minted:</p>
-      <button className="cta-button mint-button" onClick={mintToken}> 
+      <button className="cta-button mint-button" 
+      onClick={mintToken}
+      // Add this disabled state and have it listen to isMinting 
+      disabled={isMinting}> 
         Mint NFT
       </button>
+      {isLoadingMints && <p>LOADING MINTS...</p>}
        {/* If we have mints available in our array, let's render some items */}
       {mints.length > 0 && renderMintedItems()}
     </div>
