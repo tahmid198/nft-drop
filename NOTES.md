@@ -31,9 +31,9 @@ In order to begin uploading to Solana we first need to create a local wallet whi
 
 Next we use Metaplex's upload command to upload our NFT's found in the asset folder. Once upload is complete we can verify everything went well by running the verify command, and the following recipt should print with the name of our NFTs + their Arweave links.
 
-Use this link from the Metaplex documentation to [upload your NFT](https://docs.metaplex.com/candy-machine-v1/upload-assets) and then [verify your NFT's were uploaded](https://docs.metaplex.com/candy-machine-v1/verify-upload).
+Use this link from the Metaplex documentation to [upload your NFT](https://docs.metaplex.com/candy-machine-v2/creating-candy-machine) and then [verify your NFT's were uploaded](https://docs.metaplex.com/candy-machine-v2/verify-upload).
 
-Then, you can run the [update Candy Machine](https://docs.metaplex.com/candy-machine-v1/update-cm) command to set a drop date.
+Then, you can run the [update Candy Machine](https://docs.metaplex.com/candy-machine-v2/update) command to set a drop date.
 
 `wallet public key: 4onC4LPmiGFsXRNEYJ3hWMMRp9vTMNqu98iwFQU44cEb
 Name FUTURE_FOUNDATION with https://arweave.net/DG1pgu8oEhq97uvzETCviyONauuV9RGxB_NVEGihFfk checked out
@@ -48,7 +48,7 @@ Arweave will store our data forever. It uses an algorithm to determine the cost 
 
 When deploying our Candy Machine to the Metaplex's contract we are not deploying a new Candy Machine from scratch. All that is happening is that we are adding a new Candy Machine to Metaplex's existing protocol. 
 
-Use this link from the Metaplex documentation to [create our Candy Machine](https://docs.metaplex.com/candy-machine-v1/create-cm)
+Use this link from the Metaplex documentation to [create our Candy Machine](https://docs.metaplex.com/candy-machine-v2/creating-candy-machine)
 
 When creating our Candy Machine we will also be pricing our NFT in the same command.
 
@@ -87,6 +87,28 @@ Note: If you want to change or update your NFT's you will need to do the followi
 5. Run Metaplex `create_candy_machine` command to create new  candy machine
 6. Run `update_candy_machine` to create drop date
 7. Update .env file with all new addresses.
+
+
+### Minting an NFT
+
+***Pic of data fetched from the Solana devnet***
+
+
+Also Make sure to change the network of our Phantom wallet to the Devnet network, since our candy machine will be living on the Devnet.
+
+Make sure to have some Solana in your wallet, you can airdrop some with the following command and run it in your terminal:
+`solana airdrop 5 INSERT_YOUR_PHANTOM_WALLET_ADDRESS`
+
+#### Displaying the minted NFT's & drop date
+
+"Note - this may take a bit of time so don't be alarmed if it doesn't appear right away! When we call fetchHashTable, it fetches all accounts that have interacted with the program (using MetadataProgram.getProgramAccounts) and that takes some time. After we get that info, we can request the metadata for all NFTs in parallel and it's smooth sailing until we get all those shiny minted images on your UI!"
+
+To update drop date run the the `update_candy_machine` command with the date command:
+
+`ts-node ~/metaplex-foundation/metaplex/js/packages/cli/src/candy-machine-cli.ts update_candy_machine --date "1 Dec 2022 00:12:00 GMT" --env devnet --keypair ~/.config/solana/devnet.json`
+
+Also make sure to be in the root of your directory where the `.cache` folder can be located.
+
 
 ### Resources
 

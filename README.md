@@ -31,6 +31,7 @@ If you use VSCode to build your app, we included a list of suggested extensions 
 
 Link to my notes I created so I can refer back to them in the future.
 
+<button name="button" onclick="http://www.google.com">Click me</button>
 
 ### Resources
 
@@ -41,3 +42,7 @@ Link to my notes I created so I can refer back to them in the future.
 [Establishing a Connection with Phantom](https://docs.phantom.app/integrating/establishing-a-connection#eagerly-connecting)
 
 [Metaplex](https://www.metaplex.com/)
+
+---------------------------------------------------------------------------------------------------
+
+Lots of thanks and credit to 🦄Buildspace for making this project possible. 🙏
