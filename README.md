@@ -28,7 +28,7 @@ To start up the app follow these commands:
 If you use VSCode to build your app, we included a list of suggested extensions that will help you build this project! Once you open this project in VSCode, you will see a popup asking if you want to download the recommended extensions :).
  
 ### Image of drop site
-![Image Walkthrough](./images/drop_site.png)
+![Image Walkthrough](./images/drop-site.png)
  
 ### Notes 📝
  

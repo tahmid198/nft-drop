@@ -101,7 +101,7 @@ Make sure to have some Solana in your wallet, you can airdrop some with the foll
  
 Image of fetched data from the Solana devnet:
  
-![Image Walkthrough](./images/fetched_data.png)
+![Image Walkthrough](./images/fetched-data.png)
  
 #### Displaying the minted NFT's & drop date
  
